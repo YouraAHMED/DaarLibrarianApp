@@ -1,9 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# =====================
-# Données de test
-# =====================
+
 data = {
     "Query": ["amour", "vie", "mort", "temps", "homme", "femme", "nuit", "soleil", "roi", "cœur"],
     "TimeSimple(ms)": [18.6650753, 16.109705, 15.604973, 15.44404, 15.730619, 21.567583, 15.146017, 14.895201, 14.462948, 11.422634],
@@ -14,16 +12,14 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Convertir explicitement en listes (fix matplotlib bug)
+
 queries = df["Query"].tolist()
 time_simple = df["TimeSimple(ms)"].tolist()
 time_regex = df["TimeRegex(ms)"].tolist()
 count_simple = df["CountSimple"].tolist()
 count_regex = df["CountRegex"].tolist()
 
-# =====================
-# Graphique 1 : Temps
-# =====================
+
 plt.figure(figsize=(10,6))
 plt.plot(queries, time_simple, marker='o', linewidth=2, label="Recherche simple")
 plt.plot(queries, time_regex, marker='o', linewidth=2, label="Recherche RegEx")
@@ -36,9 +32,7 @@ plt.tight_layout()
 plt.savefig("graph_time.png")
 plt.close()
 
-# =====================
-# Graphique 2 : Nombre de résultats
-# =====================
+
 plt.figure(figsize=(10,6))
 plt.plot(queries, count_simple, marker='o', linewidth=2, label="Résultats simples")
 plt.plot(queries, count_regex, marker='o', linewidth=2, label="Résultats RegEx")

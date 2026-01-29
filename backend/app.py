@@ -8,9 +8,6 @@ from collections import Counter
 app = Flask(__name__)
 CORS(app)
 
-# ============================================================
-# 📂 Chemins des fichiers
-# ============================================================
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "../data"))
@@ -20,9 +17,6 @@ INDEXES_FILE = os.path.join(DATA_DIR, "indexes.json")
 JACCARD_FILE = os.path.join(DATA_DIR, "jaccard_graph.json")
 PAGERANK_FILE = os.path.join(DATA_DIR, "pagerank.json")
 
-# ============================================================
-# 📥 Chargement des données (une seule fois)
-# ============================================================
 
 def load_json(path, default):
     if os.path.exists(path):
@@ -38,9 +32,6 @@ PAGERANK = load_json(PAGERANK_FILE, {})
 def get_pagerank(book_id):
     return float(PAGERANK.get(book_id, 0.0))
 
-# ============================================================
-# 🔧 Nettoyage texte
-# ============================================================
 
 def clean_text(text: str):
     """Nettoie le texte en mots (a-z + accents), minuscules, longueur > 2."""
@@ -48,9 +39,8 @@ def clean_text(text: str):
     text = re.sub(r"[^a-zàâçéèêëîïôûùüÿñæœ]+", " ", text)
     return [w for w in text.split() if len(w) > 2]
 
-# ============================================================
-# 📘 API : détail d’un livre
-# ============================================================
+ #détail d’un livre
+
 
 @app.route("/api/book/<book_id>")
 def get_book(book_id):
@@ -72,9 +62,6 @@ def get_book(book_id):
         "pagerank": get_pagerank(book_id)
     })
 
-# ============================================================
-# 🔎 API : recherche simple (index inversé)
-# ============================================================
 
 @app.route("/api/search")
 def search():
@@ -101,7 +88,7 @@ def search():
     # tri
     results.sort(key=lambda x: x["score"], reverse=True)
 
-    # --------------- Suggestions automatiques (Jaccard + PR) ---------------
+
     suggestions = []
     if results:
         top_ids = [r["id"] for r in results[:3]]
@@ -127,9 +114,6 @@ def search():
         "suggestions": suggestions
     })
 
-# ============================================================
-# 🧩 API : recherche RegEx (index)
-# ============================================================
 
 @app.route("/api/search-regex")
 def search_regex():
@@ -160,9 +144,6 @@ def search_regex():
     results.sort(key=lambda x: x["occurrences"], reverse=True)
     return jsonify(results)
 
-# ============================================================
-# 📚 API : liste des livres
-# ============================================================
 
 @app.route("/api/books")
 def list_books():
@@ -178,9 +159,6 @@ def list_books():
     books.sort(key=lambda x: int(x["id"]))
     return jsonify(books)
 
-# ============================================================
-# 🔗 API : suggestions pour un livre
-# ============================================================
 
 @app.route("/api/suggestions/<book_id>")
 def suggestions(book_id):
@@ -199,9 +177,6 @@ def suggestions(book_id):
     suggestions.sort(key=lambda x: x["score"], reverse=True)
     return jsonify(suggestions[:10])
 
-# ============================================================
-# 📊 API : stats globales (NOUVEAU)
-# ============================================================
 
 @app.route("/api/stats")
 def stats():
@@ -212,9 +187,6 @@ def stats():
         "max_pagerank": max(PAGERANK.values()) if PAGERANK else 0,
     })
 
-# ============================================================
-# 🚀 Lancer le serveur
-# ============================================================
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

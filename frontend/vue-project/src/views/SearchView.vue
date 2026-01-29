@@ -171,7 +171,7 @@ function searchBooks() {
     })
 }
 
-// 🔍 Recherche RegEx
+
 function searchRegex() {
   error.value = ""
   simpleError.value = ""
@@ -212,7 +212,7 @@ watch(query, (val) => {
   }
 })
 
-// 🔁 Restauration si retour / rafraichissement
+// Restauration si retour / rafraichissement
 if (query.value) {
   searched.value = true
   loading.value = true

@@ -80,7 +80,7 @@ onMounted(() => {
     })
 })
 
-// ----- Computed -----
+
 
 // 1) filtrer
 const filteredBooks = computed(() => {

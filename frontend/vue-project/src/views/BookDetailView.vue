@@ -22,10 +22,10 @@
         {{ book.pagerank.toFixed(6) }}
       </p>
 
-      <h3>📌 Extrait</h3>
+      <h3> Extrait</h3>
       <p class="excerpt">{{ book.excerpt }}</p>
 
-      <h3>🔠 Mots les plus fréquents</h3>
+      <h3>Mots les plus fréquents</h3>
       <ul class="top-words">
         <li v-for="(item, index) in book.top_words" :key="index">
           <strong>{{ item[0] }}</strong> : {{ item[1] }}

@@ -35,7 +35,7 @@ def main():
         print(f"Indexing {filename} ...")
         indexes[book_id] = index_book(path)
 
-    # SAVE RESULT
+  
     with open(OUTPUT_FILE, "w", encoding="utf8") as f:
         json.dump(indexes, f, indent=2, ensure_ascii=False)
 

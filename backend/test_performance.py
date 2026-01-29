@@ -2,9 +2,9 @@ import requests
 import time
 import csv
 
-# -------------------------------
+
 # Liste de mots à tester
-# -------------------------------
+
 QUERIES = [
     "amour",
     "vie",
@@ -21,9 +21,8 @@ QUERIES = [
 API_SIMPLE = "http://127.0.0.1:5000/api/search?query="
 API_REGEX = "http://127.0.0.1:5000/api/search-regex?pattern="
 
-# -------------------------------
 # Fonction de test
-# -------------------------------
+
 def test_query(query, endpoint):
     """Mesure le temps de réponse et le nombre de résultats."""
     url = endpoint + query
@@ -44,25 +43,24 @@ def test_query(query, endpoint):
 
     return elapsed, count
 
-# -------------------------------
+
 # Lancement des tests
-# -------------------------------
+
 rows = []
 
 for q in QUERIES:
     print(f"Test : {q}")
 
-    # --- Test recherche simple ---
+    #  Test recherche simple ---
     t_simple, n_simple = test_query(q, API_SIMPLE)
 
-    # --- Test recherche RegEx (pattern exact mot) ---
+    # Test recherche RegEx (pattern exact mot) ---
     t_regex, n_regex = test_query(q, API_REGEX)
 
     rows.append([q, t_simple, n_simple, t_regex, n_regex])
 
-# -------------------------------
 # Sauvegarde dans un CSV
-# -------------------------------
+
 with open("test_results.csv", "w", newline="", encoding="utf8") as f:
     writer = csv.writer(f)
     writer.writerow(["Query", "TimeSimple(ms)", "CountSimple", "TimeRegex(ms)", "CountRegex"])
